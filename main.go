@@ -108,7 +108,7 @@ func (kc *Collector) RemoteMetrics() Entry {
 	resp, err := http.Get(kc.url)
 
 	if err != nil {
-		log.Printf("Failed calling youless: %v", err)
+		log.Printf("Failed calling kamstir: %v", err)
 		return entry
 	}
 
@@ -116,12 +116,12 @@ func (kc *Collector) RemoteMetrics() Entry {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Printf("Failed reading response from youless: %v", err)
+		log.Printf("Failed reading response from kamstir: %v", err)
 		return entry
 	}
 
 	if err := json.Unmarshal(body, &entry); err != nil {
-		log.Printf("Failed unmarshalling response from youless: %v", err)
+		log.Printf("Failed unmarshalling response from kamstir: %v", err)
 		return entry
 	}
 
@@ -134,7 +134,7 @@ func (kc *Collector) Describe(ch chan<- *prometheus.Desc) {
 	prometheus.DescribeByCollect(kc, ch)
 }
 
-// Collect first triggers the collection of metrics at the youless URL.
+// Collect first triggers the collection of metrics at the kamstir URL.
 func (kc *Collector) Collect(ch chan<- prometheus.Metric) {
 	measurements := kc.RemoteMetrics()
 
